@@ -5,13 +5,9 @@
 // http://lostechies.com/derickbailey/2011/12/12/composite-js-apps-regions-and-region-managers/
 Backbone.Marionette.AnimationRegion = Backbone.Marionette.Region.extend({
 
-  //animation: 'dissolve',
-  //has3d: (Modernizr.overflowscrolling && (typeof window.WebKitAnimationEvent != 'undefined') && ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix())),
   initialize: function(){
     this.animation = 'dissolve';
-    //cssanimations csstransforms3d
     this.has3d = (Modernizr.cssanimations && Modernizr.csstransforms3d && Modernizr.positionfixed);
-    //this.has3d = (Modernizr.overflowscrolling && (typeof window.WebKitAnimationEvent != 'undefined') && ('WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix()));
   },
 
   open: function(view){
@@ -22,14 +18,6 @@ Backbone.Marionette.AnimationRegion = Backbone.Marionette.Region.extend({
     if(!this.$el.find('#'+view.el.id).length)
       this.$el.prepend(view.el);
 
-    /*if(Modernizr.overflowscrolling === false){
-        if(this.$el.children('div').length){
-          if(this.wrapper)
-            this.wrapper.destroy();
-          this.$el.prepend(view.el);
-          this.wrapper = new iScroll('main', { checkDOMChanges: true, scrollbarClass: 'scrollbar'});
-        }
-    }*/
   },
 
   show: function(view){
@@ -39,8 +27,6 @@ Backbone.Marionette.AnimationRegion = Backbone.Marionette.Region.extend({
 
     this.open(view);
     view.render();
-
-    $('body').removeClass('enable-paysage');
 
     if (view.onShow) { view.onShow(); }
     view.trigger("show");
@@ -86,24 +72,8 @@ Backbone.Marionette.AnimationRegion = Backbone.Marionette.Region.extend({
         // Trigger animations
         //$('body').addClass('animating');
 
-        //var lastScroll = window.pageYOffset;
-        //var main = document.getElementById('main');
-        //var lastScroll = main.scrollTop;
-        //var lastScroll = 0;
-
-        /*main.style.visibility = 'hidden';
-        main.scrollTop = 0;
-        fromPage.css('top', -lastScroll);
-        main.style.visibility = 'visible';*/
-        
-
-        //toPage.css('top', lastScroll - (/*toPage.data('lastScroll') ||*/ 0));
-        //$('#main').scrollTop(lastScroll - (toPage.data('lastScroll') || 0));
-        
         toPage.addClass(finalAnimationName + ' in current');
         fromPage.addClass(finalAnimationName + ' out');
-
-        //fromPage.data('lastScroll', lastScroll);
 
     } else {
         toPage.addClass('current in');
@@ -119,20 +89,10 @@ Backbone.Marionette.AnimationRegion = Backbone.Marionette.Region.extend({
             fromPage.unbind('webkitAnimationEnd animationend', navigationEndHandler);
             fromPage.removeClass('current ' + finalAnimationName + ' out');
             toPage.removeClass(finalAnimationName);
+
             //$('body').removeClass('animating');
 
-            //var main = document.getElementById('main');
-            //var lastScroll = /*toPage.data('lastScroll') ||*/ 0;
-
-            //toPage.css('top', -lastScroll);
-            //fromPage.css('top', 0);
             window.scrollTo(0, 0);
-            /*setTimeout(function(){
-                
-                //main.scrollTop = lastScroll;
-
-                
-            }, 0);*/
 
         } else {
             fromPage.removeClass(finalAnimationName + ' out current');
